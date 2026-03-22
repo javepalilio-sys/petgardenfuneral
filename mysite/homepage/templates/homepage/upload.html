@@ -1,0 +1,83 @@
+{% extends 'homepage/base.html' %}
+{% load static %}
+
+{% block title %}Share a Memory - Pet Memory Garden{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="header-content">
+        <h1>Share Your Pet's Memory</h1>
+        <p>Write a poem, share a letter, or tell their story</p>
+        <a href="{% url 'logout' %}" class="btn btn-secondary">Sign Out</a>
+    </div>
+</div>
+
+<div class="upload-container">
+    <div class="upload-wrapper">
+        <!-- Form Section -->
+        <div class="upload-form-section">
+            <form method="post" enctype="multipart/form-data" id="uploadForm" class="upload-form">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                    <div class="error-message">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Image Upload -->
+                <div class="form-group">
+                    <label for="{{ form.image.id_for_label }}" class="form-label">Upload Photo</label>
+                    {{ form.image }}
+                    {% if form.image.errors %}
+                        <span class="error">{{ form.image.errors.0 }}</span>
+                    {% endif %}
+                    <p class="form-hint">Choose a photo of your beloved pet</p>
+                </div>
+
+                <!-- Title -->
+                <div class="form-group">
+                    <label for="{{ form.title.id_for_label }}" class="form-label">Pet's Name (Optional)</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <span class="error">{{ form.title.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <!-- Caption/Poem/Story -->
+                <div class="form-group">
+                    <label for="{{ form.caption.id_for_label }}" class="form-label">Your Memory (Required)</label>
+                    {{ form.caption }}
+                    {% if form.caption.errors %}
+                        <span class="error">{{ form.caption.errors.0 }}</span>
+                    {% endif %}
+                    <p class="form-hint">Share a poem, letter, favorite memory, or story about your pet</p>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg">Save Memory & See the Wall</button>
+            </form>
+        </div>
+
+        <!-- Live Preview Section -->
+        <div class="upload-preview-section">
+            <h3>Preview</h3>
+            <div class="preview-card">
+                <div class="preview-image" id="previewImage">
+                    <div class="placeholder">📷</div>
+                </div>
+                <div class="preview-content">
+                    <h4 id="previewTitle" class="preview-title">Pet's Name</h4>
+                    <p id="previewCaption" class="preview-caption">Your memory will appear here...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/upload-preview.js' %}"></script>
+{% endblock %}

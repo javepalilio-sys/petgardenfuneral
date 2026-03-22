@@ -1,0 +1,47 @@
+{% extends 'homepage/base.html' %}
+
+{% block title %}Login - Pet Memory Garden{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Welcome Back</h2>
+        <p class="auth-subtitle">Sign in to light a candle for your beloved pet</p>
+        
+        {% if form.non_field_errors %}
+            <div class="error-message">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <span class="error">{{ form.username.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <span class="error">{{ form.password.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        </form>
+
+        <p class="auth-footer">
+            Don't have an account? <a href="{% url 'signup' %}" class="auth-link">Create one</a>
+        </p>
+        <p class="auth-footer">
+            <a href="{% url 'landing' %}" class="auth-link">Back to Home</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

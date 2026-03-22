@@ -1,0 +1,30 @@
+{% extends 'homepage/base.html' %}
+
+{% block title %}Pet Memory Garden - Welcome{% endblock %}
+
+{% block content %}
+<div class="landing-container">
+    <div class="garden-background">
+        <div class="flowers">
+            <div class="flower flower-1"></div>
+            <div class="flower flower-2"></div>
+            <div class="flower flower-3"></div>
+            <div class="flower flower-4"></div>
+            <div class="flower flower-5"></div>
+        </div>
+        <div class="petals-container"></div>
+    </div>
+
+    <div class="landing-content">
+        <div class="welcome-card">
+            <h1 class="welcome-title">Pet Memory Garden</h1>
+            <p class="welcome-subtitle">A place where love never fades</p>
+            <p class="welcome-description">
+                Share photos and heartfelt memories of your beloved pets. 
+                Light candles in their honor and celebrate the joy they brought to your life.
+            </p>
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Continue to Garden</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

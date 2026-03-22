@@ -1,0 +1,93 @@
+{% extends 'homepage/base.html' %}
+
+{% block title %}Memory Wall - Pet Memory Garden{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="header-content">
+        <h1>The Memory Wall</h1>
+        <p>Light a candle for each beloved pet</p>
+        <div class="header-actions">
+            <a href="{% url 'upload' %}" class="btn btn-primary">Share a Memory</a>
+            <a href="{% url 'logout' %}" class="btn btn-secondary">Sign Out</a>
+        </div>
+    </div>
+</div>
+
+<div class="wall-container">
+    {% if posts %}
+        <div class="posts-grid">
+            {% for post in posts %}
+                <div class="post-card" data-post-id="{{ post.id }}">
+                    <div class="post-image">
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="Pet photo">
+                        {% else %}
+                            <div class="placeholder">📷</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="post-content">
+                        <h3 class="post-title">{{ post.title|default:"Beloved Pet" }}</h3>
+                        <p class="post-meta">By {{ post.user.username }} • {{ post.created_at|date:"M d, Y" }}</p>
+                        <p class="post-caption">{{ post.caption|truncatewords:30 }}</p>
+                    </div>
+
+                    <div class="post-footer">
+                        <button class="candle-btn" data-post-id="{{ post.id }}" onclick="addCandle({{ post.id }}, this)">
+                            <span class="candle-icon">🕯️</span>
+                            <span class="candle-count">{{ post.candle_count }}</span>
+                        </button>
+                        <p class="candle-label">Light a candle</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p class="empty-message">📚 No memories yet. Be the first to share a cherished memory.</p>
+            <a href="{% url 'upload' %}" class="btn btn-primary btn-lg">Share Your First Memory</a>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function addCandle(postId, button) {
+    fetch(`/candle/${postId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const countElement = button.querySelector('.candle-count');
+            countElement.textContent = data.candle_count;
+            button.classList.add('glow');
+            setTimeout(() => button.classList.remove('glow'), 600);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}

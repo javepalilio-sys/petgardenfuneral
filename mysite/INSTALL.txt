@@ -1,0 +1,228 @@
+# Pet Memory Garden - Installation Instructions
+
+## Step-by-Step Setup
+
+### Prerequisites Check
+Before starting, ensure you have:
+- Python 3.8+ installed (check: `python --version`)
+- pip installed (check: `pip --version`)
+- Internet connection for downloading packages
+
+### Installation Steps
+
+#### Step 1: Navigate to Project Directory
+```
+cd c:\Users\Jave Riezon Palilio\Desktop\django\mysite
+```
+
+#### Step 2: (Optional) Create Virtual Environment
+Virtual environments help isolate project dependencies.
+
+For Windows Command Prompt:
+```
+python -m venv venv
+venv\Scripts\activate
+```
+
+For Windows PowerShell:
+```
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+#### Step 3: Install Required Packages
+```
+pip install Django Pillow
+```
+
+This installs:
+- Django: Web framework
+- Pillow: Image handling library
+
+#### Step 4: Run Database Migrations
+```
+python manage.py migrate
+```
+
+This creates the SQLite database with all necessary tables.
+
+Output should show:
+```
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, homepage, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  ... (many more migrations)
+  Applying homepage.0001_initial... OK
+  Applying sessions.0001_initial... OK
+```
+
+#### Step 5: Create Admin/Superuser Account
+
+Choose one method:
+
+**Method A - Interactive (Recommended)**
+```
+python manage.py createsuperuser
+```
+You'll be prompted for:
+- Username: [Enter username]
+- Email address: [Enter email]
+- Password: [Enter password - won't show as you type]
+- Password (again): [Confirm password]
+
+**Method B - Non-interactive
+```
+python manage.py createsuperuser --username admin --email admin@petgarden.com --noinput
+```
+Then set password:
+```
+python manage.py shell
+```
+Then in Python shell:
+```python
+from django.contrib.auth.models import User
+u = User.objects.get(username='admin')
+u.set_password('YourNewPassword')
+u.save()
+exit()
+```
+
+#### Step 6: Start Development Server
+```
+python manage.py runserver
+```
+
+You should see output like:
+```
+Watching for file changes with StatReloader
+Quit the server with CONTROL-C.
+```
+
+If you see this, the server is running!
+
+#### Step 7: Access the Application
+
+Open your web browser and visit:
+- Main site: http://localhost:8000
+- Admin panel: http://localhost:8000/admin
+
+#### Step 8: Create Directories (If Needed)
+If image uploads fail, manually create the media directory:
+```
+mkdir media
+mkdir media\pets
+```
+
+---
+
+## Verification Checklist
+
+✓ Python installed (3.8+)
+✓ Navigated to project directory
+✓ (Virtual environment activated if used)
+✓ Packages installed (Django, Pillow)
+✓ Database migrated
+✓ Superuser created
+✓ Server running
+✓ Browser can access http://localhost:8000
+✓ Admin can login at http://localhost:8000/admin
+
+---
+
+## Troubleshooting Installation
+
+### Error: "Python not found"
+- Solution: Install Python from python.org or check PATH environment variable
+
+### Error: "pip is not recognized"
+- Solution: Make sure Python is in your PATH, or use `python -m pip` instead
+
+### Error: "ImageField requires Pillow"
+- Solution: Run `pip install Pillow --upgrade`
+
+### Error: "Port 8000 is already in use"
+- Solution: Use different port: `python manage.py runserver 8080`
+
+### Error: Database locked
+- Solution: Delete db.sqlite3 and run migrations again
+
+### Error: Migration errors
+- Solution: Run `python manage.py migrate --run-syncdb`
+
+### Error: Static files not found (404)
+- Solution: In development, Django serves them automatically. If it's a real issue, run `python manage.py collectstatic`
+
+---
+
+## After Installation
+
+### First Login
+1. Go to http://localhost:8000
+2. Click "Continue to Garden"
+3. Click "Sign In" if you have an account, or "Create Account" to register
+4. Enter credentials (or create new account)
+5. You'll be redirected to the upload page
+
+### Create Test Memory
+1. Upload a pet photo
+2. Enter pet name (optional)
+3. Write a memory
+4. Click "Save Memory & See the Wall"
+5. View your post on the memory wall
+
+### Admin Features
+1. Go to http://localhost:8000/admin
+2. Login with superuser credentials
+3. View all posts under "Posts"
+4. Manage users in "Users" section
+5. View candle counts and other statistics
+
+---
+
+## Starting Server After First Setup
+
+For future sessions, you only need:
+
+```bash
+cd c:\Users\Jave Riezon Palilio\Desktop\django\mysite
+python manage.py runserver
+```
+
+Or use a different port if needed:
+```bash
+python manage.py runserver 0.0.0.0:8080
+```
+
+The "0.0.0.0" allows access from other machines on your network.
+
+---
+
+## Getting Help
+
+If you encounter issues:
+
+1. Check error messages carefully - Django provides detailed error information
+2. Refer to README.md for more detailed documentation
+3. Review the QUICKSTART.md for common options
+4. Check Django documentation: https://docs.djangoproject.com
+
+---
+
+## Production Deployment
+
+Note: This setup is for development only. For deploying to production:
+
+1. Set DEBUG = False in settings.py
+2. Update ALLOWED_HOSTS with your domain
+3. Use a production database (PostgreSQL recommended)
+4. Use a production server (Gunicorn, uWSGI)
+5. Set up HTTPS/SSL certificates
+6. Configure environment variables for secrets
+7. Use a reverse proxy (Nginx)
+
+Refer to Django's deployment checklist: https://docs.djangoproject.com/en/stable/howto/deployment/checklist/
+
+---
+
+**Installation Complete! Enjoy the Pet Memory Garden! 🌸**
