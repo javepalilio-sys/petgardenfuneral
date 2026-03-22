@@ -122,15 +122,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# This tells Django to look inside your 'homepage' folder for the static folder
+# We tell Django exactly where to find the static files
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'homepage', 'static'),
 ]
 
-# This is where Render will "collect" everything to show the colors
+# This is where they go for the web
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# This helps Render serve the files efficiently
+# MUST HAVE THIS for Render to show colors
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Media files configuration
 MEDIA_URL = '/media/'
