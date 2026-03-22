@@ -121,16 +121,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# This tells Django to look inside the homepage folder
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'homepage', 'static'),
-]
-
-# This is where Render collects files
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'homepage', 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# This is the "Magic" that makes the CSS appear on Render
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Media files configuration
 MEDIA_URL = '/media/'
