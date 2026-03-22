@@ -33,12 +33,14 @@ CSRF_TRUSTED_ORIGINS = ['https://petgardenfuneral.onrender.com']
 # Application definition
 
 INSTALLED_APPS = [
+    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
     'homepage',
 ]
 
@@ -136,3 +138,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Login redirect
 LOGIN_REDIRECT_URL = 'upload'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dxb9xuaja',
+    'API_KEY': '937933733722145',
+    'API_SECRET': 'PvML4XlI1HM0gt7f8yf1cKJWjyc'
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
